@@ -86,7 +86,7 @@ export default function Header() {
                                 Contact
                             </Link>
                             <Link to="/login" className="block" onClick={() => setMenuOpen(false)}>
-                                Contact
+                                Login
                             </Link>
                         </div>
                 )}
