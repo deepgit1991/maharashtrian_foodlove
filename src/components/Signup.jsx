@@ -25,7 +25,7 @@ export default function Signup() {
     try {
     const res = await axios.post(`${API_URL}/register`, {name,email,password,});
       
-    if (res.status === 200) {
+    if (res.status === 200 || res.status === 201) {
       alert("Signup Successful!");
       navigate("/login");
     }
