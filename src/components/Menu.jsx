@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from "./api";
 
 const Menu = () => {
   const [tabs, setTabs] = useState([]);
   const [activeTab, setActiveTab] = useState("");
   const [menuData, setMenuData] = useState([]);
   const navigate = useNavigate();
-  const ImagePath = "http://localhost:5000";
+  const ImagePath = `${API_URL}`;
 
   // =========================
   // FETCH CATEGORIES (TABS)
@@ -15,7 +16,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/categories");
+        const res = await axios.get(`${API_URL}/categories`);
 
         console.log("categories API:", res.data);
 
@@ -47,7 +48,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/menu-dishes");
+        const res = await axios.get(`${API_URL}/menu-dishes`);
 
         console.log("menu API:", res.data);
 

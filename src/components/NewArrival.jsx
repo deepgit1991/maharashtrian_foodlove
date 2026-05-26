@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_URL from "./api";
 
 export default function NewArrival() {
   const [dishes, setDishes] = useState([]);
@@ -10,7 +11,7 @@ export default function NewArrival() {
     const fetchNewArrivalDishes = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/dishes/new-arrival"
+          `${API_URL}/dishes/new-arrival`
         );
         setDishes(res.data);
       } catch (error) {
@@ -47,7 +48,7 @@ export default function NewArrival() {
                   className="bg-gray-50 rounded-2xl shadow hover:shadow-xl transition overflow-hidden"
                 >
                   <img
-                    src={`http://localhost:5000/uploads/${dish.image}`}
+                    src={`${API_URL}/uploads/${dish.image}`}
                     alt={dish.name}
                     className="w-full h-52 object-cover"
                   />

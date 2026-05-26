@@ -1,5 +1,6 @@
 import { useState ,useEffect } from "react";
 import axios from "axios";
+import API_URL from "./api";
 import {
   BarChart,
   Bar,
@@ -19,7 +20,7 @@ export default function DashboardHome() {
   const fetchStats = async () => {
    // console.log("gggggg");
 
-    const res = await axios.get("http://localhost:5000/stats");
+    const res = await axios.get(`${API_URL}/stats`);
 
     setStats(res.data.data);
 

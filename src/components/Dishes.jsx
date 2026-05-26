@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-
+import API_URL from "./api";
 export default function Dishes() {
 
   // States
@@ -34,7 +34,7 @@ export default function Dishes() {
     try {
 
       const res = await axios.get(
-        `http://localhost:5000/dishes?page=${page}&limit=${itemsPerPage}`
+        `${API_URL}/dishes?page=${page}&limit=${itemsPerPage}`
       );
 
       setDishes(res.data.dishes);
@@ -58,7 +58,7 @@ export default function Dishes() {
       try {
 
         const res = await axios.get(
-          "http://localhost:5000/categories"
+          `${API_URL}/categories`
         );
 
         setCategories(res.data);
@@ -112,7 +112,7 @@ export default function Dishes() {
         console.log("editid" , editId);
         
         await axios.put(
-          `http://localhost:5000/dishes/${editId}`,
+          `${API_URL}/dishes/${editId}`,
           data
         );
 
@@ -122,7 +122,7 @@ export default function Dishes() {
 
         // ADD
         await axios.post(
-          "http://localhost:5000/dishes",
+          `${API_URL}/dishes`,
           data
         );
 
@@ -176,7 +176,7 @@ export default function Dishes() {
     try {
 
       await axios.delete(
-        `http://localhost:5000/dishes/${id}`
+        `${API_URL}/dishes/${id}`
       );
 
       alert("Dish Deleted Successfully");
@@ -374,7 +374,7 @@ export default function Dishes() {
                 {/* Image */}
                 <td className="p-3">
                   <img
-                    src={`http://localhost:5000/uploads/${dish.image}`}
+                    src={`${API_URL}/uploads/${dish.image}`}
                     alt={dish.name}
                     className="w-16 h-16 rounded object-cover"
                   />

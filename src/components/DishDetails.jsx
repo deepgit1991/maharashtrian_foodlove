@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-
+import API_URL from "./api";
 export default function DishDetails() {
   const location = useLocation();
   const navigate = useNavigate();
-  const ImagePath = "http://localhost:5000";
+  const ImagePath = `${API_URL}`;
   const dish = location.state;
   console.log(dish);
   

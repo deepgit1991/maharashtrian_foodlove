@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import API_URL from "./api";
 export default function Category() {
 
   const [categoryName, setCategoryName] = useState("");
@@ -15,9 +15,7 @@ export default function Category() {
 
     try {
 
-      const res = await axios.get(
-        "http://localhost:5000/categories"
-      );
+      const res = await axios.get(`${API_URL}/categories`);
 
       setCategories(res.data);
 
@@ -40,7 +38,7 @@ export default function Category() {
       if (editId) {
 
         await axios.put(
-          `http://localhost:5000/categories/${editId}`,
+          `${API_URL}/categories/${editId}`,
           {
             category_name: categoryName,
             status,
@@ -51,9 +49,7 @@ export default function Category() {
 
       } else {
 
-        await axios.post(
-          "http://localhost:5000/categories",
-          {
+        await axios.post(`${API_URL}/categories`, {
             category_name: categoryName,
             status,
           }
@@ -83,7 +79,7 @@ export default function Category() {
     try {
 
       await axios.delete(
-        `http://localhost:5000/categories/${id}`
+        `${API_URL}/categories/${id}`
       );
 
       fetchCategories();
