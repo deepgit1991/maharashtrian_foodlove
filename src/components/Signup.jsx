@@ -53,9 +53,8 @@ export default function Signup() {
     {/* Title */}
     <h2 className="text-3xl font-bold text-center mb-6 text-orange-700">
       Create Account 
-      
     </h2>
-{`${API_URL}/register`}
+
     {/* Name */}
     <input
       type="text"
