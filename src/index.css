@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+.home-bg-img{
+  /* background-image: url('/assets/home-banner.png');
+  background-position: center;
+  background-size: 100% 100%; */
+  background-image: url("/assets/home-banner.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+}
+.home-text{
+  color: #fff;
+}
+.bg-branches
+{
+   background-image: url('../assets/food-branches.jpg');
+  background-position: center;
+  background-size:contain;
+}
