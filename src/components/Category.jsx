@@ -99,107 +99,200 @@ export default function Category() {
     setStatus(category.status);
   };
 
-  return (
-    <div className="p-6">
+ return (
+  <div className="p-3 sm:p-6 overflow-x-hidden">
 
-      <h2 className="text-3xl font-bold mb-6">
-        Category CRUD
-      </h2>
+    {/* Heading */}
+    <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center sm:text-left">
+      Category CRUD
+    </h2>
 
-      {/* Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-xl p-6 mb-8"
-      >
+    {/* Form */}
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white shadow-lg rounded-xl p-4 sm:p-6 mb-8"
+    >
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-          <input
-            type="text"
-            placeholder="Enter Category Name"
-            value={categoryName}
-            onChange={(e) =>
-              setCategoryName(e.target.value)
-            }
-            className="border p-3 rounded-lg"
-            required
-          />
+        {/* Category Input */}
+        <input
+          type="text"
+          placeholder="Enter Category Name"
+          value={categoryName}
+          onChange={(e) =>
+            setCategoryName(e.target.value)
+          }
+          className="border p-3 rounded w-full"
+          required
+        />
 
-          <select
-            value={status}
-            onChange={(e) =>
-              setStatus(e.target.value)
-            }
-            className="border p-3 rounded-lg"
-          >
-            <option value="Active">
-              Active
-            </option>
+        {/* Status Select */}
+        <select
+          value={status}
+          onChange={(e) =>
+            setStatus(e.target.value)
+          }
+          className="border p-3 rounded w-full"
+        >
+          <option value="Active">
+            Active
+          </option>
 
-            <option value="Inactive">
-              Inactive
-            </option>
-          </select>
+          <option value="Inactive">
+            Inactive
+          </option>
+        </select>
+      </div>
+
+      {/* Submit Button */}
+      <button className="mt-5 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded w-full sm:w-auto">
+        {editId
+          ? "Update Category"
+          : "Add Category"}
+      </button>
+
+    </form>
+
+    {/* MOBILE CARD VIEW */}
+    <div className="block md:hidden space-y-4">
+
+      {categories.map((category) => (
+
+        <div
+          key={category.id}
+          className="bg-white shadow rounded-lg p-4"
+        >
+
+          <div className="mb-2">
+            <p className="text-sm text-gray-500">
+              ID
+            </p>
+
+            <p className="font-medium">
+              {category.id}
+            </p>
+          </div>
+
+          <div className="mb-2">
+            <p className="text-sm text-gray-500">
+              Category
+            </p>
+
+            <p className="font-medium">
+              {category.category_name}
+            </p>
+          </div>
+
+          <div className="mb-4">
+            <span
+              className={`px-3 py-1 rounded-full text-white text-sm
+              ${
+                category.status === "Active"
+                  ? "bg-green-500"
+                  : "bg-red-500"
+              }`}
+            >
+              {category.status}
+            </span>
+          </div>
+
+          <div className="flex gap-2">
+
+            <button
+              onClick={() =>
+                handleEdit(category)
+              }
+              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+            >
+              Edit
+            </button>
+
+            <button
+              onClick={() =>
+                handleDelete(category.id)
+              }
+              className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+            >
+              Delete
+            </button>
+
+          </div>
+
         </div>
 
-        <button className="mt-5 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg">
-          {editId ? "Update Category" : "Add Category"}
-        </button>
-      </form>
+      ))}
 
-      {/* Table */}
-      <div className="overflow-x-auto bg-white shadow-lg rounded-xl">
+    </div>
 
-        <table className="w-full">
+    {/* DESKTOP TABLE VIEW */}
+    <div className="hidden md:block overflow-x-auto bg-white shadow-lg rounded-lg">
 
-          <thead className="bg-orange-500 text-white">
+      <table className="min-w-full">
 
-            <tr>
-              <th className="p-4 text-left">ID</th>
-              <th className="p-4 text-left">Category</th>
-              <th className="p-4 text-left">Status</th>
-              <th className="p-4 text-left">Actions</th>
-            </tr>
-          </thead>
+        <thead className="bg-[#1e293b] text-white">
 
-          <tbody>
+          <tr>
+            <th className="p-4 text-left">
+              ID
+            </th>
 
-            {categories.map((category) => (
+            <th className="p-4 text-left">
+              Category
+            </th>
 
-              <tr
-                key={category.id}
-                className="border-b"
-              >
-                <td className="p-4">
-                  {category.id}
-                </td>
+            <th className="p-4 text-left">
+              Status
+            </th>
 
-                <td className="p-4">
-                  {category.category_name}
-                </td>
+            <th className="p-4 text-left">
+              Actions
+            </th>
+          </tr>
 
-                <td className="p-4">
+        </thead>
 
-                  <span
-                    className={`px-3 py-1 rounded-full text-white text-sm
-                    ${
-                      category.status === "Active"
-                        ? "bg-green-500"
-                        : "bg-red-500"
-                    }`}
-                  >
-                    {category.status}
-                  </span>
+        <tbody>
 
-                </td>
+          {categories.map((category) => (
 
-                <td className="p-4 flex gap-3">
+            <tr
+              key={category.id}
+              className="border-b"
+            >
+
+              <td className="px-4 py-3">
+                {category.id}
+              </td>
+
+              <td className="px-4 py-3">
+                {category.category_name}
+              </td>
+
+              <td className="px-4 py-3">
+
+                <span
+                  className={`px-3 py-1 rounded-full text-white text-sm
+                  ${
+                    category.status === "Active"
+                      ? "bg-green-500"
+                      : "bg-red-500"
+                  }`}
+                >
+                  {category.status}
+                </span>
+
+              </td>
+
+              <td className="px-4 py-3">
+
+                <div className="flex gap-3">
 
                   <button
                     onClick={() =>
                       handleEdit(category)
                     }
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded"
                   >
                     Edit
                   </button>
@@ -208,18 +301,25 @@ export default function Category() {
                     onClick={() =>
                       handleDelete(category.id)
                     }
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded"
                   >
                     Delete
                   </button>
 
-                </td>
-              </tr>
-            ))}
+                </div>
 
-          </tbody>
-        </table>
-      </div>
+              </td>
+
+            </tr>
+
+          ))}
+
+        </tbody>
+
+      </table>
+
     </div>
-  );
+
+  </div>
+);
 }

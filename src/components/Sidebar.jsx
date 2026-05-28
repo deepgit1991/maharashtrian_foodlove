@@ -17,11 +17,7 @@ export default function Sidebar() {
   {/* Logo + Title */}
   <div className="flex items-center gap-3 mb-10 border-b border-gray-700 pb-5">
     
-    <img
-      src="/assets/logo.png"
-      alt="Logo"
-      className="w-14 h-14 object-contain rounded-full  p-1 shadow-md"
-    />
+    <img src="/assets/logo.png" alt="Logo" className="w-14 h-14 object-contain rounded-full  p-1 shadow-md"/>
 
     <div>
       <h2 className="text-2xl font-bold text-orange-400">
@@ -40,10 +36,10 @@ export default function Sidebar() {
       <li key={item.name}>
         <Link
           to={item.path}
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300
+          className={`flex items-center gap-3 px-4 py-1  transition-all duration-300
           ${
             location.pathname === item.path
-              ? "bg-orange-500 text-white shadow-lg"
+              ? "text-[#ff8904] shadow-lg"
               : "hover:bg-[#334155] hover:text-orange-400"
           }`}
         >

@@ -29,12 +29,6 @@ export default function Dashboard() {
       navigate("/login");
     }
 
-    // Get user data
-    // const userData = JSON.parse(localStorage.getItem("user"));
-
-    // if (userData) {
-    //   setUserName(userData.name);
-    // }
   }, [navigate]);
 
   const handleLogout = () => {

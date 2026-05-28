@@ -18,27 +18,15 @@ export default function DashboardHome() {
   });
  useEffect(() => {
   const fetchStats = async () => {
-   // console.log("gggggg");
-
     const res = await axios.get(`${API_URL}/stats`);
-
     setStats(res.data.data);
-
-   console.log(res.data.data, "fff");
   };
 
   fetchStats();
 }, []);
 
-  // const stats = {
-  //   customers: 120,
-  //   dishes: 45,
-  //   orders: 320,
-  // };
-
-  // 📅 Get current month (0 = Jan, 11 = Dec)
-  const currentMonth = new Date().getMonth();
   
+  const currentMonth = new Date().getMonth();
   const months = [
     "Jan","Feb","Mar","Apr","May","Jun",
     "Jul","Aug","Sep","Oct","Nov","Dec"
@@ -87,7 +75,7 @@ export default function DashboardHome() {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="orders" fill="#6366f1" />
+              <Bar dataKey="orders" fill="#ff8904" />
             </BarChart>
           </ResponsiveContainer>
         </div>
