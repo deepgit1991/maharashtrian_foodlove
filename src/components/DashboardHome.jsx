@@ -11,11 +11,16 @@ import {
 } from "recharts";
 
 export default function DashboardHome() {
+  const [chartData, setChartData] = useState([]);
   const [stats, setStats] = useState({
     customers: 0,
     dishes: 0,
-    orders: 0,
+    pendingOrders: 0,
   });
+  useEffect(() => {
+  fetchMonthlyOrders();
+}, []);
+
  useEffect(() => {
   const fetchStats = async () => {
     const res = await axios.get(`${API_URL}/stats`);
@@ -25,18 +30,21 @@ export default function DashboardHome() {
   fetchStats();
 }, []);
 
+  const fetchMonthlyOrders = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/monthly-orders`);
+    setChartData(res.data.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+  const data = chartData;
+  // const data = months.slice(0, currentMonth + 1).map((month) => ({
+  //   name: month,
+  //   orders: Math.floor(Math.random() * 100) + 20, // dummy dynamic data
+  // }));
+  console.log(stats);
   
-  const currentMonth = new Date().getMonth();
-  const months = [
-    "Jan","Feb","Mar","Apr","May","Jun",
-    "Jul","Aug","Sep","Oct","Nov","Dec"
-  ];
-
-  const data = months.slice(0, currentMonth + 1).map((month) => ({
-    name: month,
-    orders: Math.floor(Math.random() * 100) + 20, // dummy dynamic data
-  }));
-
   return (
     <div className="space-y-6">
 
@@ -44,7 +52,7 @@ export default function DashboardHome() {
         <div className="bg-white p-5 rounded-xl shadow">
           <h3 className="text-gray-500">Total Customers</h3>
           <p className="text-3xl font-bold text-blue-600">
-            {stats.customers}
+            {stats.orders}
           </p>
         </div>
 
@@ -58,7 +66,7 @@ export default function DashboardHome() {
         <div className="bg-white p-5 rounded-xl shadow">
           <h3 className="text-gray-500">Total Orders</h3>
           <p className="text-3xl font-bold text-purple-600">
-            {stats.orders}
+            {stats.pendingOrders}
           </p>
         </div>
       </div>

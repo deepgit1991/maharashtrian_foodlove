@@ -19,6 +19,8 @@ import DishDetails from "./components/DishDetails";
 import NewArrival from "./components/NewArrival";
 import Signup from "./components/Signup";
 import Category from "./components/Category";
+import Booktable from "./components/Booktable";
+import Orderlist from "./components/Orderlist";
 export default function App() {
  
   return (
@@ -77,6 +79,8 @@ export default function App() {
               <Route path="customers" element={<Customers />} />
               <Route path="dishes" element={<Dishes />} />
               <Route path="category" element={<Category />} />
+              <Route path="booktable" element={<Booktable />} />
+              <Route path="orderlist" element={<Orderlist />} />
             </Route>
       </Routes>
     </Router>

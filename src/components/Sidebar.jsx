@@ -9,6 +9,8 @@ export default function Sidebar() {
     { name: "Customers", path: "/dashboard/customers", icon: <Users size={18} /> },
     { name: "Dishes", path: "/dashboard/dishes", icon: <UtensilsCrossed size={18} /> },
     { name: "Category", path: "/dashboard/category", icon: <Shapes size={18} /> },
+    { name: "Book Table", path: "/dashboard/booktable", icon: <Shapes size={18} /> },
+    { name: "Orders", path: "/dashboard/orderlist", icon: <Shapes size={18} /> },
   ];
 
   return (

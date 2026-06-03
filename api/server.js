@@ -380,65 +380,247 @@ app.put("/categories/:id", (req, res) => {
     }
   );
 });
+app.get("/statsj", (req, res) => {
+  db.query(
+    "SELECT COUNT(*) AS totalDishes FROM dishes",
+    (err, dishResult) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          error: err.message,
+        });
+      }
+
+      db.query(
+        "SELECT COUNT(*) AS totalOrders FROM orders WHERE status = 'pending'",
+        (err, orderResult) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              error: err.message,
+            });
+          }
+
+          // 👇 Total customers (unique mobile numbers)
+          db.query(
+            "SELECT COUNT(DISTINCT mobile_number) AS totalCustomers FROM orders",
+            (err, customerResult) => {
+              if (err) {
+                return res.status(500).json({
+                  success: false,
+                  error: err.message,
+                });
+              }
+
+              res.status(200).json({
+                success: true,
+                data: {
+                  dishes: dishResult[0].totalDishes,
+                  orders: orderResult[0].totalOrders,
+                  customers: customerResult[0].totalCustomers,
+                },
+              });
+            }
+          );
+        }
+      );
+    }
+  );
+});
 app.get("/stats", (req, res) => {
+  db.query(
+    "SELECT COUNT(*) AS totalDishes FROM dishes",
+    (err, dishRows) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: err.message,
+        });
+      }
 
-  const sql = "SELECT COUNT(*) AS totalDishes FROM dishes";
+      db.query(
+        "SELECT COUNT(*) AS totalOrders FROM orders",
+        (err, orderRows) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: err.message,
+            });
+          }
 
-  db.query(sql, (err, result) => {
+          db.query(
+            "SELECT COUNT(*) AS totalPendingOrders FROM orders WHERE status = 'pending'",
+            (err, pendingRows) => {
+              if (err) {
+                return res.status(500).json({
+                  success: false,
+                  message: err.message,
+                });
+              }
 
+              res.status(200).json({
+                success: true,
+                data: {
+                  dishes: dishRows[0].totalDishes,
+                  orders: orderRows[0].totalOrders,
+                  pendingOrders: pendingRows[0].totalPendingOrders,
+                },
+              });
+            }
+          );
+        }
+      );
+    }
+  );
+});
+
+// Order created //
+// Generate Random Token
+const generateToken = () => {
+  return "TK" + Math.floor(100000 + Math.random() * 900000);
+};
+app.post("/orders", (req, res) => {
+  const { mobileNumber } = req.body;
+  console.log("mobileNumber", mobileNumber);
+  
+  // Validation
+  const mobileRegex = /^[6-9]\d{9}$/;
+
+  if (!mobileRegex.test(mobileNumber)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid mobile number",
+    });
+  }
+
+  const tokenNumber = generateToken();
+
+  const sql =
+    "INSERT INTO orders (mobile_number, customer_id) VALUES (?, ?)";
+
+  db.query(sql, [mobileNumber, tokenNumber], (err, result) => {
     if (err) {
+      console.error(err);
       return res.status(500).json({
         success: false,
-        error: err.message,
+        message: "Database error",
       });
     }
 
-    res.status(200).json({
+    res.json({
       success: true,
-
-      data: {
-        dishes: result[0].totalDishes,
-        customers: 0,
-      },
+      orderId: result.insertId,
+      customerId : tokenNumber,
+      mobileNumber : mobileNumber,
+      tokenNumber,
+      message: "Order created successfully",
     });
-
   });
-
 });
-app.get("/statsj", async (req, res) => {
+app.get("/filterdishes", (req, res) => {
+  const search = req.query.q || "";   
+
+  const sql = `SELECT * FROM dishes WHERE name LIKE ?`;
+
+  db.query(sql, [`%${search}%`], (err, result) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+
+    res.json({
+      dishes: result
+    });
+  });
+});
+
+app.post("/place-order", (req, res) => {
+  const { customerId, items, totalAmount } = req.body;
+
+  const sql = ` UPDATE orders SET dishes = ?, total_amount = ? WHERE customer_id = ? `;
+
+  const values = [
+    JSON.stringify(items),
+    Number(totalAmount),
+    customerId
+  ];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.log("DB ERROR:", err);
+      return res.status(500).json(err);
+    }
+
+    console.log("RESULT:", result);
+
+    return res.json({
+      message: "Order updated successfully",
+      customerId,
+      totalAmount
+    });
+  });
+});
+app.get("/orders",  (req, res) => {
   try {
+    const { mobile, token } = req.query;
 
-    // Total Dishes
-    const [dishRows] = await db.query(
-      "SELECT COUNT(*) AS totalDishes FROM dishes"
-    );
+    let sql = "SELECT * FROM orders";
+    const params = [];
 
-    // Total Orders
-    const [orderRows] = await db.query(
-      "SELECT COUNT(*) AS totalOrders FROM orders"
-    );
+    if (mobile && token) {
+      sql += " WHERE mobile_number LIKE ? OR customer_id LIKE ?";
+      params.push(`%${mobile}%`, `%${token}%`);
+    } else if (mobile) {
+      sql += " WHERE mobile_number LIKE ?";
+      params.push(`%${mobile}%`);
+    } else if (token) {
+      sql += " WHERE customer_id LIKE ?";
+      params.push(`%${token}%`);
+    }
 
-    // Response
+    sql += " ORDER BY id DESC";
+
+    const [rows] =  db.query(sql, params);
+console.log(typeof db.query);
     res.status(200).json({
       success: true,
-
-      data: {
-        dishes: dishRows[0].totalDishes,
-        orders: orderRows[0].totalOrders,
-      },
+      data: rows,
     });
 
-  } catch (error) {
-
-    console.error("MYSQL ERROR:", error);
-
+  } catch (err) {
+    console.error("DB ERROR:", err);
     res.status(500).json({
       success: false,
-      message: "Database error",
-      error: error.message,
+      message: err.message,
     });
   }
 });
+
+// fetc orderby monthly 
+app.get("/monthly-orders", (req, res) => {
+  const sql = `
+    SELECT 
+      DATE_FORMAT(created_at, '%b') AS name,
+      COUNT(*) AS orders
+    FROM orders
+    GROUP BY MONTH(created_at), DATE_FORMAT(created_at, '%b')
+    ORDER BY MONTH(created_at)
+  `;
+
+  db.query(sql, (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  });
+});
+// Port 
 app.listen(5000, () => {
   console.log("Server Running on Port 5000");
 });

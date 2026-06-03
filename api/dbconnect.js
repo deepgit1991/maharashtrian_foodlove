@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mysql = require("mysql2");
 
-const isOnline = process.env.NODE_ENV === "online";
+const isOnline = process.env.NODE_ENV === "local";
 
 let db;
 
