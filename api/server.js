@@ -578,8 +578,10 @@ app.get("/orders",  (req, res) => {
 
     sql += " ORDER BY id DESC";
 
-    const [rows] =  db.query(sql, params);
-console.log(typeof db.query);
+    const rows =  db.query(sql, params);
+    console.log(rows);
+    
+    console.log(typeof db.query);
     res.status(200).json({
       success: true,
       data: rows,
