@@ -503,6 +503,7 @@ app.post("/orders", (req, res) => {
       return res.status(500).json({
         success: false,
         message: "Database error",
+        log: err 
       });
     }
 
