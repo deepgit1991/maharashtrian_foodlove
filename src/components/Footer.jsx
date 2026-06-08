@@ -59,7 +59,7 @@ const Footer = () => {
 
       {/* Bottom */}
       <div className="border-t border-gray-700 mt-8 pt-4 text-center text-sm">
-        All design right reserved by Wisdome tec it
+        All design right reserved by Wisdome Tec IT
       </div>
     </footer>
   );
