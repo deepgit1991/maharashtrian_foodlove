@@ -59,7 +59,7 @@ const Footer = () => {
 
       {/* Bottom */}
       <div className="border-t border-gray-700 mt-8 pt-4 text-center text-sm">
-        © 2026 MyBrand. All rights reserved.
+        All design right reserved by Wisdome tec it
       </div>
     </footer>
   );

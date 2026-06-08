@@ -487,7 +487,7 @@ app.post("/orders", (req, res) => {
   const mobileRegex = /^[6-9]\d{9}$/;
 
   if (!mobileRegex.test(mobileNumber)) {
-    return res.status(400).json({
+    return res.status(400).jsson({
       success: false,
       message: "Invalid mobile number",
     });
@@ -495,8 +495,7 @@ app.post("/orders", (req, res) => {
 
   const tokenNumber = generateToken();
 
-  const sql =
-    "INSERT INTO orders (mobile_number, customer_id) VALUES (?, ?)";
+  const sql = "INSERT INTO orders (mobile_number, customer_id) VALUES (?, ?)";
 
   db.query(sql, [mobileNumber, tokenNumber], (err, result) => {
     if (err) {
