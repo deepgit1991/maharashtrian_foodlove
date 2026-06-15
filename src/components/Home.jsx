@@ -12,22 +12,44 @@ export default function Home() {
     <div className="relative w-full max-w-7xl mx-auto px-6 md:px-12 py-16">
       
       {/* Hero Content */}
-      <div className="max-w-xl text-left">
-        <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold leading-tight text-white">
-          Royal Maharashtrian
-          <br />
-          Experiences
-        </h1>
+      <div className="pt-36 md:pt-44 lg:pt-40">
 
-        <p className="mt-4 md:mt-6 text-base sm:text-lg text-white leading-relaxed">
-          Discover the rich flavors of traditional cuisine, from spicy curries
-          to delicious sweets. Experience taste like never before.
-        </p>
+  <div className="max-w-3xl">
 
-        {/* <button className="mt-6 md:mt-8 px-4 py-2 bg-yellow-400 text-black font-semibold sm:px-6 sm:py-3 rounded-md hover:bg-yellow-500 transition">
-          BOOK A TABLE
-        </button> */}
-      </div>
+    <h1
+      className="
+      text-5xl
+      sm:text-6xl
+      lg:text-7xl
+      font-extrabold
+      leading-tight
+      text-white
+    "
+    >
+      Royal
+      <br />
+      Maharashtrian
+      <br />
+      Experiences
+    </h1>
+
+    <p
+      className="
+      mt-6
+      text-lg
+      md:text-xl
+      text-white
+      max-w-2xl
+      leading-relaxed
+    "
+    >
+      Discover the rich flavors of traditional cuisine,
+      from spicy curries to delicious sweets.
+      Experience taste like never before.
+    </p>
+
+  </div>
+</div>
 
       {/* Services Section */}
       <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
