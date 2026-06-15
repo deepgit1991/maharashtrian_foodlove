@@ -25,57 +25,98 @@ export default function NewArrival() {
   return (
     <>
       {dishes.length > 0 && (
-        <section id="new-arrivals" className="py-16">
-          <div className="max-w-7xl mx-auto px-6">
+        <section id="new-arrivals" className="py-16 bg-white">
+  <div className="max-w-7xl mx-auto px-6">
 
-            {/* Heading */}
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-red-600">
-                New Arrivals
-              </h2>
+    {/* Section Header */}
+    <div className="text-center mb-14">
 
-              <p className="text-gray-500 mt-3">
-                Freshly added Maharashtrian special dishes
-              </p>
-            </div>
+      <div className="flex items-center justify-center gap-3 md:gap-6">
 
-            {/* Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Left Line */}
+        <div className="hidden sm:block w-20 md:w-40 h-[2px] bg-gradient-to-r from-transparent to-orange-500"></div>
 
-              {dishes.map((dish) => (
-                <div
-                  key={dish.id}
-                  className="bg-gray-50 rounded-2xl shadow hover:shadow-xl transition overflow-hidden"
-                >
-                  <img
-                    src={`${API_URL}/uploads/${dish.image}`}
-                    alt={dish.name}
-                    className="w-full h-52 object-cover"
-                  />
+        {/* Left Flag */}
+        <img
+          src="/assets/maharashtra-flag.png"
+          alt="Flag"
+          className="w-10 h-10 md:w-12 md:h-12"
+        />
 
-                  <div className="p-5">
-                    <h3 className="text-xl font-semibold">
-                      {dish.name}
-                    </h3>
+        {/* Title */}
+        <div>
+          <h2 className="text-3xl md:text-5xl font-bold text-red-700 uppercase tracking-wide">
+            New Arrivals
+          </h2>
+        </div>
 
-                    <p className="text-gray-500 text-sm mt-2">
-                      {dish.description}
-                    </p>
+        {/* Right Flag */}
+        <img
+          src="/assets/maharashtra-flag.png"
+          alt="Flag"
+          className="w-10 h-10 md:w-12 md:h-12 scale-x-[-1]"
+        />
 
-                    <div className="flex justify-between items-center mt-4">
-                      <span className="text-red-500 font-bold text-lg">
-                        ₹{dish.price}
-                      </span>
+        {/* Right Line */}
+        <div className="hidden sm:block w-20 md:w-40 h-[2px] bg-gradient-to-l from-transparent to-orange-500"></div>
 
-                      
-                    </div>
-                  </div>
-                </div>
-              ))}
+      </div>
 
+      {/* Decorative Divider */}
+      <div className="flex justify-center mt-4">
+        <div className="w-24 h-1 bg-orange-500 rounded-full"></div>
+      </div>
+
+      {/* Subtitle */}
+      <p className="mt-5 text-gray-600 text-sm md:text-lg max-w-2xl mx-auto">
+        Experience the authentic taste of Maharashtra with our freshly added
+        traditional delicacies prepared using age-old recipes and premium ingredients.
+      </p>
+
+    </div>
+
+    {/* Cards */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      {dishes.map((dish) => (
+        <div
+          key={dish.id}
+          className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition duration-300 overflow-hidden group"
+        >
+          <div className="overflow-hidden">
+            <img
+              src={`${API_URL}/uploads/${dish.image}`}
+              alt={dish.name}
+              className="w-full h-56 object-cover group-hover:scale-110 transition duration-500"
+            />
+          </div>
+
+          <div className="p-5">
+            <h3 className="text-xl font-bold text-gray-800">
+              {dish.name}
+            </h3>
+
+            <p className="text-gray-500 text-sm mt-2 line-clamp-3">
+              {dish.description}
+            </p>
+
+            <div className="mt-4 flex justify-between items-center">
+              <span className="text-red-600 font-bold text-xl">
+                ₹{dish.price}
+              </span>
+
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition">
+                View
+              </button>
             </div>
           </div>
-        </section>
+        </div>
+      ))}
+
+    </div>
+
+  </div>
+</section>
       )}
     </>
   );

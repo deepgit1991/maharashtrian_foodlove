@@ -37,7 +37,7 @@ export default function App() {
                 <ScrollToHash />
 
                 {/* HOME */}
-                <section id="home" className="h-screen flex items-center bg-gradient-to-r from-orange-100 to-yellow-100 home-bg-img">
+                <section id="home" className="min-h-screen flex items-center bg-gradient-to-r from-orange-100 to-yellow-100 home-bg-img">
                   <Home />
                 </section>
 

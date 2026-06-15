@@ -23,3 +23,106 @@ html {
   background-position: center;
   background-size:contain;
 }
+
+/* swiper  */
+.speciality-slider {
+  padding: 80px 5%;
+  background: linear-gradient(135deg, #f8f8f8, #ffffff);
+}
+
+.speciality-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.speciality-header span {
+  display: block;
+  color: #c89b3c;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.speciality-header h2 {
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.speciality-header p {
+  max-width: 700px;
+  margin: 0 auto;
+  color: #f59504;
+  line-height: 1.7;
+  font-size: 20px;
+}
+
+.speciality-slider {
+  position: relative;
+  padding: 80px 5%;
+  background: url("/assets/maharashtrian-bg.png") center/cover no-repeat;
+}
+
+.speciality-slider::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.speciality-slider > * {
+  position: relative;
+  z-index: 1;
+}
+
+.dish-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 420px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.dish-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.dish-content {
+  padding: 20px;
+}
+
+.dish-content h3 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.dish-content p {
+  color: #e37d09;
+  line-height: 1.6;
+   font-weight: 500;
+}
+/* swiper  */
+
+.contact-bg {
+    position: relative;
+    padding: 80px 5%;
+    background: url(/assets/food-bg.png) center / cover no-repeat;
+}
+.contact-content{
+    background-color: azure;
+    padding: 40px;
+    opacity: 0.8;
+}
+@media (max-width: 768px) {
+    .home-bg-img {
+        background-size: cover;
+        background-position: center center;
+        min-height: 50vh;
+    }
+}

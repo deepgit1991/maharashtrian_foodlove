@@ -622,6 +622,34 @@ app.get("/monthly-orders", (req, res) => {
     });
   });
 });
+
+// save contact form 
+
+app.post("/savecontact", (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  console.log(req.body);
+  
+  const sql =
+    "INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
+
+  db.query(sql, [name, email, subject, message], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to save message",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Message submitted successfully",
+    });
+  });
+});
+
+// save contact form 
 // Port 
 app.listen(5000, () => {
   console.log("Server Running on Port 5000");

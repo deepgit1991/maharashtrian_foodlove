@@ -39,7 +39,7 @@ const Branches = () => {
         <h1 className="text-4xl font-bold text-center mb-10 text-white">
           Our Branches / आमची शाखा 
         </h1>
-        <p className="text-center text-gray-500 mt-2 my-5 text-2xl text-red-500">
+        <p className="text-center text-gray-500 mt-2 my-5 text-2xl text-white">
             “We’re expanding our flavors across Maharashtra—visit your nearest branch and experience food that feels like home.”
         </p>
 

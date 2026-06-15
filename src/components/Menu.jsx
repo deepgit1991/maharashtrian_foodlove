@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,20 +8,16 @@ const Menu = () => {
   const [tabs, setTabs] = useState([]);
   const [activeTab, setActiveTab] = useState("");
   const [menuData, setMenuData] = useState([]);
+
   const navigate = useNavigate();
   const ImagePath = `${API_URL}`;
 
-  // =========================
-  // FETCH CATEGORIES (TABS)
-  // =========================
+  // Fetch Categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get(`${API_URL}/categories`);
 
-        console.log("categories API:", res.data);
-
-        // SAFE MAPPING (handles string OR object)
         const categoryTabs = res.data
           .map((item) =>
             (item.category_name || item.name || item)
@@ -42,16 +39,11 @@ const Menu = () => {
     fetchCategories();
   }, []);
 
-  // =========================
-  // FETCH MENU DATA
-  // =========================
+  // Fetch Menu
   useEffect(() => {
     const fetchMenu = async () => {
       try {
         const res = await axios.get(`${API_URL}/menu-dishes`);
-
-        console.log("menu API:", res.data);
-
         setMenuData(Array.isArray(res.data) ? res.data : []);
       } catch (error) {
         console.log(error);
@@ -61,9 +53,7 @@ const Menu = () => {
     fetchMenu();
   }, []);
 
-  // =========================
-  // FILTER MENU
-  // =========================
+  // Filter Menu
   const filteredMenu = menuData.filter((item) => {
     const category = item.category?.toLowerCase();
     const type = item.type?.toLowerCase();
@@ -72,39 +62,52 @@ const Menu = () => {
     return category === active || type === active;
   });
 
-  console.log("tabs:", tabs);
-  console.log("activeTab:", activeTab);
-  console.log("filteredMenu:", filteredMenu);
-
   return (
-    <div className="flex items-center py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="min-h-screen py-20 bg-gradient-to-br from-orange-50 via-white to-yellow-50">
+      <div className="max-w-7xl mx-auto px-6">
 
-        {/* Heading */}
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          Maharashtrian Food Menu
-        </h1>
+        {/* Header */}
+        <div className="text-center mb-14">
+          <span className="text-orange-500 tracking-[4px] uppercase text-sm font-semibold">
+            Authentic Flavours
+          </span>
+
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mt-3">
+            Maharashtrian Menu
+          </h1>
+
+          <div className="w-24 h-1 bg-orange-500 mx-auto mt-5 rounded-full"></div>
+
+          <p className="text-gray-500 mt-5 max-w-2xl mx-auto text-lg">
+            Discover the rich taste of Maharashtra with our carefully crafted
+            traditional dishes made from authentic recipes.
+          </p>
+        </div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
+        <div className="flex flex-wrap justify-center gap-4 mb-14">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300
                 ${
                   activeTab === tab
-                    ? "bg-orange-500 text-white shadow-md scale-105"
-                    : "bg-white text-gray-600 border hover:bg-orange-100"
+                    ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-xl scale-105"
+                    : "bg-white border border-orange-100 text-gray-700 hover:border-orange-400 hover:shadow-md"
                 }`}
             >
-              {tab === "non-veg" ? "Non-Veg" : tab}
+              {tab === "veg"
+                ? "🥗 Veg"
+                : tab === "non-veg"
+                ? "🍗 Non-Veg"
+                : tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
         </div>
 
-        {/* Menu Grid */}
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        {/* Cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filteredMenu.map((item) => (
             <div
               key={item.id}
@@ -114,62 +117,83 @@ const Menu = () => {
                   { state: item }
                 )
               }
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden cursor-pointer"
+              className="group bg-white/80 backdrop-blur-md rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer"
             >
               {/* Image */}
-              <div className="w-full aspect-square relative overflow-hidden">
+              <div className="relative overflow-hidden">
                 <img
-                 src={`${ImagePath}/uploads/${item.image}`}
+                  src={`${ImagePath}/uploads/${item.image}`}
                   alt={item.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <h2 className="text-white font-semibold text-lg text-center px-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+                {/* Veg / Non Veg */}
+                <div className="absolute top-4 right-4">
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold text-white
+                      ${
+                        item.category?.toLowerCase() === "veg"
+                          ? "bg-green-500"
+                          : "bg-red-500"
+                      }`}
+                  >
+                    {item.category?.toLowerCase() === "veg"
+                      ? "VEG"
+                      : "NON VEG"}
+                  </span>
+                </div>
+
+                {/* Dish Name */}
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h2 className="text-white text-xl font-bold">
                     {item.name}
                   </h2>
                 </div>
               </div>
 
               {/* Content */}
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {item.name}
-                </h3>
-
-                <div className="flex justify-between items-center mt-2">
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full font-medium
-                      ${
-                        item.category === "veg"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-600"
-                      }`}
-                  >
-                    {item.category === "veg" ? "Veg" : item.category}
+              <div className="p-5">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm uppercase text-orange-500 font-medium">
+                    {item.type === "main"
+                      ? "Main Course"
+                      : item.type}
                   </span>
 
-                  <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                    {item.type === "main" ? "Main Course" : item.type}
+                  <span className="text-2xl font-bold text-gray-900">
+                    ₹{item.price}
                   </span>
                 </div>
 
-                <div className="flex justify-between items-center mt-4">
-                  <p className="text-orange-500 font-bold">
-                    {item.price}
-                  </p>
+                <p className="text-gray-500 text-sm mt-3 leading-relaxed">
+                  Traditional Maharashtrian delicacy prepared using fresh
+                  ingredients and authentic regional spices.
+                </p>
 
-                  <button className="bg-orange-500 text-white px-3 py-1 rounded-md text-sm hover:bg-orange-600">
-                    Add
-                  </button>
-                </div>
+                <button
+                  className="w-full mt-5 py-3 rounded-xl font-semibold text-white
+                  bg-gradient-to-r from-orange-500 to-red-500
+                  hover:shadow-lg transition-all duration-300"
+                >
+                  View Details
+                </button>
               </div>
             </div>
           ))}
         </div>
 
+        {/* Empty State */}
+        {filteredMenu.length === 0 && (
+          <div className="text-center py-20">
+            <h3 className="text-2xl font-semibold text-gray-500">
+              No dishes available
+            </h3>
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
 
